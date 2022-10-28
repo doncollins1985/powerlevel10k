@@ -25,7 +25,8 @@
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
-    # os_icon               # os identifier
+    os_icon                 # os identifier
+    vi_mode                 # vi mode
     dir                     # current directory
     vcs                     # git status
     # =========================[ Line #2 ]=========================
@@ -51,14 +52,14 @@
     nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
     nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
     nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
-    # node_version          # node.js version
-    # go_version            # go version (https://golang.org)
-    # rust_version          # rustc version (https://www.rust-lang.org)
-    # dotnet_version        # .NET version (https://dotnet.microsoft.com)
-    # php_version           # php version (https://www.php.net/)
-    # laravel_version       # laravel php framework version (https://laravel.com/)
-    # java_version          # java version (https://www.java.com/)
-    # package               # name@version from package.json (https://docs.npmjs.com/files/package.json)
+    node_version            # node.js version
+    go_version              # go version (https://golang.org)
+    rust_version            # rustc version (https://www.rust-lang.org)
+    dotnet_version          # .NET version (https://dotnet.microsoft.com)
+    php_version             # php version (https://www.php.net/)
+    laravel_version         # laravel php framework version (https://laravel.com/)
+    java_version            # java version (https://www.java.com/)
+    package                 # name@version from package.json (https://docs.npmjs.com/files/package.json)
     rbenv                   # ruby version from rbenv (https://github.com/rbenv/rbenv)
     rvm                     # ruby version from rvm (https://rvm.io)
     fvm                     # flutter version management (https://github.com/leoafarias/fvm)
@@ -100,9 +101,9 @@
     # =========================[ Line #2 ]=========================
     newline                 # \n
     # ip                    # ip address and bandwidth usage for a specified network interface
-    # public_ip             # public IP address
+    public_ip               # public IP address
     # proxy                 # system-wide http/https/ftp proxy
-    # battery               # internal battery
+    battery                 # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
   )
@@ -775,7 +776,7 @@
   typeset -g POWERLEVEL9K_VI_OVERWRITE_MODE_STRING=OVERTYPE
   typeset -g POWERLEVEL9K_VI_MODE_OVERWRITE_FOREGROUND=172
   # Text and color for insert vi mode.
-  typeset -g POWERLEVEL9K_VI_INSERT_MODE_STRING=
+  typeset -g POWERLEVEL9K_VI_INSERT_MODE_STRING=INSERT
   typeset -g POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND=66
 
   # Custom icon.
@@ -881,15 +882,15 @@
   typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=180
 
   # Context format when running with privileges: bold user@hostname.
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n@%m'
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n'
   # Context format when in SSH without privileges: user@hostname.
-  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_TEMPLATE='%n@%m'
+  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_TEMPLATE='%n'
   # Default context format (no privileges, no SSH): user@hostname.
-  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n@%m'
+  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n'
 
   # Don't show context unless running with privileges or in SSH.
   # Tip: Remove the next line to always show context.
-  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
+  # typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
 
   # Custom icon.
   # typeset -g POWERLEVEL9K_CONTEXT_VISUAL_IDENTIFIER_EXPANSION='⭐'
