@@ -2650,7 +2650,10 @@ prompt_dotnet_version() {
   if (( _POWERLEVEL9K_DOTNET_VERSION_PROJECT_ONLY )); then
     _p9k_upglob 'project.json|global.json|packet.dependencies|*.csproj|*.fsproj|*.xproj|*.sln' && return
   fi
-  _p9k_cached_cmd 0 '' dotnet --version || return
+
+  local cfg
+  _p9k_upglob global.json || cfg=$_p9k__parent_dirs[$?]/global.json
+  _p9k_cached_cmd 0 "$cfg" dotnet --version || return
   _p9k_prompt_segment "$0" "magenta" "white" 'DOTNET_ICON' 0 '' "$_p9k__ret"
 }
 
@@ -5653,8 +5656,16 @@ prompt_cpu_arch() {
     state=$_p9k__cache_val[1]
     text=$_p9k__cache_val[2]
   else
-    text=$(command arch) 2>/dev/null && [[ $text == [a-zA-Z][a-zA-Z0-9_]# ]] || text=
-    state=_${(U)text}
+    local cmd
+    for cmd in machine arch; do
+      (( $+commands[$cmd] )) || continue
+      if text=$(command -- $cmd) 2>/dev/null && [[ $text == [a-zA-Z][a-zA-Z0-9_]# ]]; then
+        break
+      else
+        text=
+      fi
+    done
+    state=_${${(U)text}//İ/I}
     _p9k_cache_ephemeral_set "$state" "$text"
   fi
   if [[ -n $text ]]; then
@@ -5664,8 +5675,8 @@ prompt_cpu_arch() {
   (( _p9k__has_upglob )) || typeset -g "_p9k__segment_val_${_p9k__prompt_side}[_p9k__segment_index]"=$_p9k__prompt[len+1,-1]
 }
 
-_p9k_prompt_arch_init() {
-  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='$commands[arch]'
+_p9k_prompt_cpu_arch_init() {
+  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='$commands[machine]$commands[arch]'
 }
 
 # Use two preexec hooks to survive https://github.com/MichaelAquilina/zsh-you-should-use with
@@ -8334,7 +8345,7 @@ _p9k_must_init() {
     [[ $sig == $_p9k__param_sig ]] && return 1
     _p9k_deinit
   fi
-  _p9k__param_pat=$'v137\1'${(q)ZSH_VERSION}$'\1'${(q)ZSH_PATCHLEVEL}$'\1'
+  _p9k__param_pat=$'v139\1'${(q)ZSH_VERSION}$'\1'${(q)ZSH_PATCHLEVEL}$'\1'
   _p9k__param_pat+=$__p9k_force_term_shell_integration$'\1'
   _p9k__param_pat+=$'${#parameters[(I)POWERLEVEL9K_*]}\1${(%):-%n%#}\1$GITSTATUS_LOG_LEVEL\1'
   _p9k__param_pat+=$'$GITSTATUS_ENABLE_LOGGING\1$GITSTATUS_DAEMON\1$GITSTATUS_NUM_THREADS\1'
