@@ -215,9 +215,8 @@ Configs created by `p10k configure` enable show on command for several prompt se
 Here's the relevant parameter for kubernetes context:
 
 ```zsh
-# Show prompt segment "kubecontext" only when the command you are typing
-# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl, stern, kubeseal, skaffold, or kubent.
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold|kubent'
+# Show prompt segment "kubecontext" only when the command you are typing invokes one of these tools.
+typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
 ```
 
 To customize when different prompt segments are shown, open `~/.p10k.zsh`, search for
@@ -722,6 +721,15 @@ If you are using a different terminal, proceed with manual font installation. ðŸ
      ```
      After changing the config run `xrdb ~/.Xresources` to reload it. The new config is applied to
      all new terminals.
+   - **Zed**: Open `~/.config/zed/settings.json` and set `terminal.font_family` to `"MesloLGS NF"`.
+     ```jsonc
+     {
+       "terminal": {
+         "font_family": "MesloLGS NF"
+       },
+       // Other settings.
+     }
+     ```
    - Crostini (Linux on Chrome OS): Open
      chrome-untrusted://terminal/html/nassh_preferences_editor.html, set *Text font family* to
       `'MesloLGS NF'` (including the quotes) and *Custom CSS (inline text)* to the following:
@@ -1230,9 +1238,9 @@ Prompt segments can be configured to be shown only when the current command you 
 a relevant tool.
 
 ```zsh
-# Show prompt segment "kubecontext" only when the command you are typing
-# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl, stern, kubeseal, skaffold, or kubent.
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold|kubent'
+# Show prompt segment "kubecontext" only when the command you are typing invokes
+# invokes kubectl, helm, or kubens.
+typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
 ```
 
 Configs created by `p10k configure` may contain parameters of this kind. To customize when different
@@ -1248,7 +1256,7 @@ function kube-toggle() {
   if (( ${+POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND} )); then
     unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
   else
-    POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold|kubent'
+    POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
   fi
   p10k reload
   if zle; then
